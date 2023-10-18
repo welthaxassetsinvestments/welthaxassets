@@ -31,6 +31,8 @@ public class UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private AddressService addressService;
 	
 	@Autowired
 	AccountService accountService;
