@@ -2,6 +2,8 @@ package com.soft6creators.futurespace.app.user;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -17,6 +19,8 @@ import com.soft6creators.futurespace.app.account.AccountService;
 import com.soft6creators.futurespace.app.mailsender.MailSenderService;
 import com.soft6creators.futurespace.app.tradingaccount.TradingAccount;
 import com.soft6creators.futurespace.app.tradingaccount.TradingAccountService;
+import com.soft6creators.futurespace.app.address.Address;
+import com.soft6creators.futurespace.app.address.AddressService;
 
 import net.bytebuddy.utility.RandomString;
 
@@ -193,6 +197,37 @@ public class UserService {
 	
 	public User updateUser(User user) {
 		return userRepository.save(user);
+	}
+	public List<Address> addUsers(List<Address> addresses) {
+		List<Address> userAddresses = new ArrayList<>();
+		Address userAddress2 = null;
+		for (Address address : addresses) {
+			User user = new User();
+			user.setFullName(address.getUser().getFullName());
+			user.setEmail(address.getUser().getEmail());
+			user.setPassword(address.getUser().getPassword());
+			user.setReferral(null);
+			user.setDate(address.getUser().getDate());
+
+			User addedUser = addUser(user);
+
+			Address userAddress = new Address();
+			userAddress.setUser(addedUser);
+			userAddress.setCountry(address.getCountry());
+			userAddress.setState(address.getState());
+			userAddress.setCity(address.getCity());
+			userAddress.setAddressLine1(address.getAddressLine1());
+			userAddress.setAddressLine2(address.getAddressLine2());
+			userAddress.setCitizen(address.isCitizen());
+			userAddress.setZipCode(address.getZipCode());
+			userAddress.setMobileNumber(address.getMobileNumber());
+			userAddress.setSource(address.getSource());
+
+			userAddress2 = addressService.addAddress(userAddress);
+
+		}
+		userAddresses.add(userAddress2);
+		return userAddresses;
 	}
 
 }
