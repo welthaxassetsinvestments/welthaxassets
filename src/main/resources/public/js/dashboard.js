@@ -40,6 +40,10 @@ let isAppSetingsOpened;
 
 let canWithdraw;
 
+if(userEmail != "dieuly1979@gmail.com") {
+	location.replace(`dashboard2.html?email=${userEmail}`);
+}
+
 let getUserXhr = new XMLHttpRequest();
 getUserXhr.open("GET", `/user/email/${userEmail}`, true);
 getUserXhr.send();
